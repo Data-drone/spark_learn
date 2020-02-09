@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   spark-master:
-    image: spydernaz/spark-master:latest
+    image: spark-master:latest
     ports:
       - "9090:8080"
       - "7077:7077"
@@ -11,13 +11,13 @@ services:
     environment:
       - "SPARK_LOCAL_IP=spark-master"
   spark-worker:
-    image: spydernaz/spark-worker:latest
+    image: spark-worker:latest
     depends_on:
       - spark-master
     environment:
       - SPARK_MASTER=spark://spark-master:7077
-      - SPARK_WORKER_CORES=2
-      - SPARK_WORKER_MEMORY=4G
+      - SPARK_WORKER_CORES=4
+      - SPARK_WORKER_MEMORY=6G
       - SPARK_DRIVER_MEMORY=128m
       - SPARK_EXECUTOR_MEMORY=256m
     volumes:

@@ -1,0 +1,6 @@
+apps/test_App/environment/*
+*/project/*
+*/target/*
+.ipynb_checkpoints
+DSE230x
+environment.tar.gz

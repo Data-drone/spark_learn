@@ -34,6 +34,6 @@ RUN wget --no-verbose https://archive.apache.org/dist/spark/spark-${SPARK_VERSIO
 # Note: this is needed when you use Python 3.3 or greater
 ENV PYTHONHASHSEED 1
 
-RUN pip install pyspark toree
+RUN pip install pyspark toree conda-pack
 
 USER $NB_USER

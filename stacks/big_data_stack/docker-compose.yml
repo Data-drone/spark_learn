@@ -112,7 +112,7 @@ services:
     image: jupyter/pyspark-notebook
     container_name: jupyter
     ports: 
-      - 19091:8080
+      - 19091:8888
     volumes:
       - /home/brian/Workspace:/home/jovyan/work
     networks:

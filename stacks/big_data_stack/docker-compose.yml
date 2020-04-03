@@ -113,6 +113,8 @@ services:
     container_name: jupyter
     ports: 
       - 19091:8888
+    environment:
+      ENABLE_JUPYTER_LAB: 'yes'
     volumes:
       - /home/brian/Workspace:/home/jovyan/work
     networks:

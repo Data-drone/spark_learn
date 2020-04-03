@@ -108,6 +108,17 @@ services:
       net_pet:
         ipv4_address: 172.27.1.11
 
+  jupyter:
+    image: jupyter/pyspark-notebook
+    container_name: jupyter
+    ports: 
+      - 19091:8080
+    volumes:
+      - /home/brian/Workspace:/home/jovyan/work
+    networks:
+      net_pet:
+        ipv4_address: 172.27.1.18
+
   zeppelin:
     image: openkbs/docker-spark-bde2020-zeppelin
     container_name: zeppelin
@@ -185,10 +196,10 @@ services:
       net_pet:
         ipv4_address: 172.27.1.16  
 
-  streamsets:
-    image: streamsets/datacollector:3.13.0-latest
+  nifi:
+    image: apache/nifi:1.11.4
     ports:
-      - "18630:18630"
+      - "18080:8080"
     networks:
       net_pet:
         ipv4_address: 172.27.1.17  

@@ -91,7 +91,6 @@ services:
      
   spark-worker:
     image: bde2020/spark-worker:2.4.0-hadoop2.7
-    container_name: spark-worker
     depends_on:
       - spark-master
     environment:
@@ -101,12 +100,11 @@ services:
     depends_on:
       - spark-master
     ports:
-      - 8081:8081
+      - 8081
     env_file:
       - ./hadoop-hive.env
     networks:
       net_pet:
-        ipv4_address: 172.27.1.11
 
   jupyter:
     image: jupyter/pyspark-notebook
@@ -122,7 +120,7 @@ services:
         ipv4_address: 172.27.1.18
 
   hue:
-      image: gethue/hue:20191107-135001
+      image: gethue/hue:20200403-135001
       hostname: hue
       container_name: hue
       dns: 8.8.8.8
@@ -149,8 +147,8 @@ services:
           MYSQL_ROOT_USER: root
           MYSQL_ROOT_PASSWORD: secret
           MYSQL_DATABASE: hue
-          MYSQL_USER: root
-          MYSQL_PASSWORD: secret
+          MYSQL_USER: hue
+          MYSQL_PASSWORD: supersecret
       networks:
         net_pet:
           ipv4_address: 172.27.1.14

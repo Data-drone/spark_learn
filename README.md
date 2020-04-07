@@ -55,3 +55,8 @@ spark-submit \
 src/main/python/test_script.py
 
 ```
+
+TODO:
+
+- machine learning with spark
+- pyspark distributing tasks

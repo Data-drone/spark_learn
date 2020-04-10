@@ -1,6 +1,7 @@
 # Spark Learning
 
-
+Repo for experimenting with spark 2.x
+- Docker compose for building spark multi-worker spark stacks
 
 ## Using docker spark-submit
 

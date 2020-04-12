@@ -24,8 +24,8 @@ services:
        - ./apps:/opt/spark-apps
        - ./data:/opt/spark-data
   notebook:
-    build: docker/
-    #image: datadrone/deeplearn_pytorch:latest
+    #build: docker/
+    image: datadrone/spark_notebook:latest
     ports:
       - "9200:8888"
     environment:
@@ -34,3 +34,4 @@ services:
     ipc: host
     volumes:
        - /home/brian/Workspace:/home/jovyan/work
+       - ./data:/opt/spark-data

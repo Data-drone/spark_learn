@@ -14,7 +14,7 @@ from xgboost import XGBClassifier
 
 def main():
     cv = 5
-    clf_scoring = "roc_auc"
+    clf_scoring = "accuracy"
     reg_scoring = "neg_mean_squared_error"
 
     data = load_iris()

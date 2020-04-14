@@ -39,10 +39,18 @@ target/scala-2.11/spark-ml_2.12-1.0.jar
 Python:
 
 ```Bash
+
 spark-submit \
 --master spark://spark-master:7077 \
 --jars /opt/spark-data/libs/xgboost4j-spark-0.90.jar,/opt/spark-data/libs/xgboost4j-0.90.jar \
 src/main/python/main.py
+
 ```
 
+## Adding Python Dependencies
 
+See: https://github.com/Data-drone/spark-submit-deps
+for packaging
+
+Note this packaging doesn't work for numpy due to numpy compiling with C extensions.
+Numpy needs to be installed on nodes

@@ -52,5 +52,36 @@ src/main/python/main.py
 See: https://github.com/Data-drone/spark-submit-deps
 for packaging
 
-Note this packaging doesn't work for numpy due to numpy compiling with C extensions.
-Numpy needs to be installed on nodes
+Note this packaging doesn't work for numpy/pandas/xgb due to numpy compiling with C extensions.
+These all need to be installed on nodes
+
+```Bash
+# run from python dir
+
+spark-submit \
+--master spark://spark-master:7077 \
+--py-files spark_dist/skdist_test-0.1-deps.zip,spark_dist/skdist_test-0.1.zip \
+skdist_test.py
+
+```
+
+Conda-Pack option
+
+--files only copies files
+--archive only works with yarn
+
+
+
+```Bash
+# run from python dir
+# this is with a spark standalone cluster
+# we use the shared /opt/spark-data folder
+# and we unpacked environment manually into that
+
+PYSPARK_DRIVER_PYTHON=`which python` \
+PYSPARK_PYTHON=/opt/spark-data/libs/environment/bin/python \
+spark-submit \
+--master spark://spark-master:7077 \
+skdist_test.py
+
+```

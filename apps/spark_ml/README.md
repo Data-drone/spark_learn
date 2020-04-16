@@ -1,6 +1,14 @@
 # Spark ML
 
-The goal for this app is to run common machine learning tasts
+The goal for this app is to run common machine learning tasks
+
+ - train a model
+ - run hyperparameter tuning
+ - run distributed model training with sk-dist
+
+note that for hyperparameter tuning we are running a process with hyperopt which doesn't have a scala api so that is python only.
+
+for sk-dist that is also a python utility
 
 ## Setup
 

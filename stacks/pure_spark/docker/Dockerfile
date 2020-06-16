@@ -7,7 +7,7 @@ RUN apt-get -y update && \
     rm -rf /var/lib/apt/lists/*
 
 # setup scala
-ENV SPARK_VERSION=2.4.3
+ENV SPARK_VERSION=2.4.5
 ENV HADOOP_VERSION=2.7
 ENV SCALA_VERSION=2.12.4
 ENV SCALA_HOME=/usr/share/scala
@@ -23,17 +23,21 @@ RUN cd "/tmp" && \
     rm -rf "/tmp/"*
 
 #Scala instalation
-RUN export PATH="/usr/local/sbt/bin:$PATH" &&  apt update && apt install ca-certificates wget tar && mkdir -p "/usr/local/sbt" && wget -qO - --no-check-certificate "https://github.com/sbt/sbt/releases/download/v1.2.8/sbt-1.2.8.tgz" | tar xz -C /usr/local/sbt --strip-components=1 && sbt sbtVersion
+RUN export PATH="/usr/local/sbt/bin:$PATH" &&  apt -y update && \
+    apt -y install ca-certificates wget tar && mkdir -p "/usr/local/sbt" && \
+    wget -qO - --no-check-certificate "https://github.com/sbt/sbt/releases/download/v1.2.8/sbt-1.2.8.tgz" | tar xz -C /usr/local/sbt --strip-components=1 && sbt sbtVersion
 
 # https://archive.apache.org/dist/spark/spark-2.4.3/spark-2.4.3-bin-hadoop2.7.tgz
 RUN wget --no-verbose https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz && tar -xvzf spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz \
       && mv spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION} spark \
       && rm spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz
 
+ENV SPARK_HOME='/home/jovyan/spark/'
+
 # Fix the value of PYTHONHASHSEED
 # Note: this is needed when you use Python 3.3 or greater
 ENV PYTHONHASHSEED 1
 
-RUN pip install pyspark toree conda-pack
+RUN pip install pyspark==2.4.5 toree conda-pack
 
 USER $NB_USER

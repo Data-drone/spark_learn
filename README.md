@@ -3,6 +3,14 @@
 Repo for experimenting with spark 2.x
 - Docker compose for building spark multi-worker spark stacks
 
+## Starting the stack
+
+```Bash
+
+docker-compose -f stacks/pure_spark/docker-compose.yml up --scale spark-worker=3
+
+```
+
 ## Using docker spark-submit
 
 ```Bash
@@ -59,5 +67,4 @@ src/main/python/test_script.py
 
 TODO:
 
-- machine learning with spark
 - pyspark distributing tasks

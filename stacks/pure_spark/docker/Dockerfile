@@ -40,4 +40,9 @@ ENV PYTHONHASHSEED 1
 
 RUN pip install pyspark==2.4.5 toree conda-pack
 
+RUN conda install -y -c conda-forge spylon-kernel
+
 USER $NB_USER
+
+# need verify this line
+RUN python -m spylon_kernel install --user

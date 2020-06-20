@@ -34,7 +34,8 @@ services:
       - "9200:8888"
     environment:
       - JUPYTER_ENABLE_LAB=yes
-      - SPARK_OPTS='--master=spark://spark-master:7077'
+      - JAVA_HOME=/usr
+      - SPARK_MASTER=spark://spark-master:7077
       - "PYSPARK_PYTHON=/usr/bin/python3"
       - "PYSPARK_DRIVER_PYTHON=/usr/bin/python3"
     ipc: host

@@ -21,8 +21,8 @@ services:
       - SPARK_DRIVER_MEMORY=128m
       - SPARK_EXECUTOR_MEMORY=256m
     volumes:
-       - ./apps:/opt/spark-apps
-       - ./data:/opt/spark-data
+       - /home/brian/Workspace/spark_learn/apps:/opt/spark-apps
+       - /home/brian/Workspace/spark_learn/data:/opt/spark-data
   notebook:
     #build: docker/
     image: datadrone/spark_notebook:2.4.5-hadoop2.7
@@ -30,7 +30,8 @@ services:
       - "9200:8888"
     environment:
       - JUPYTER_ENABLE_LAB=yes
-      - SPARK_OPTS='--master=spark://spark-master:7077'
+      - JAVA_HOME=/usr
+      - SPARK_MASTER=spark://spark-master:7077
     ipc: host
     volumes:
        - /home/brian/Workspace:/home/jovyan/work

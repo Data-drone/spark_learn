@@ -1,0 +1,43 @@
+version: "3.7"
+services:
+  spark-master:
+    image: bde2020/spark-master:3.0.0-hadoop3.2
+    ports:
+      - "9090:8080"
+      - "7077:7077"
+    volumes:
+       - /home/brian/Workspace/spark_learn/apps:/opt/spark-apps
+       - /home/brian/Workspace/spark_learn/data:/opt/spark-data
+    environment:
+      - "SPARK_LOCAL_IP=spark-master"
+      - "PYSPARK_PYTHON=/usr/bin/python3"
+      - "PYSPARK_DRIVER_PYTHON=/usr/bin/python3"
+  spark-worker:
+    image: bde2020/spark-worker:3.0.0-hadoop3.2
+    depends_on:
+      - spark-master
+    environment:
+      - SPARK_MASTER=spark://spark-master:7077
+      - SPARK_WORKER_CORES=4
+      - SPARK_WORKER_MEMORY=6G
+      - SPARK_DRIVER_MEMORY=128m
+      - SPARK_EXECUTOR_MEMORY=256m
+      - "PYSPARK_PYTHON=/usr/bin/python3"
+      - "PYSPARK_DRIVER_PYTHON=/usr/bin/python3"
+    volumes:
+       - /home/brian/Workspace/spark_learn/apps:/opt/spark-apps
+       - /home/brian/Workspace/spark_learn/data:/opt/spark-data
+  notebook:
+    #build: docker/
+    image: datadrone/spark_notebook:3.0.0-hadoop3.2
+    ports:
+      - "9200:8888"
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+      - SPARK_OPTS='--master=spark://spark-master:7077'
+      - "PYSPARK_PYTHON=/usr/bin/python3"
+      - "PYSPARK_DRIVER_PYTHON=/usr/bin/python3"
+    ipc: host
+    volumes:
+       - /home/brian/Workspace:/home/jovyan/work
+       - /home/brian/Workspace/spark_learn/data:/opt/spark-data

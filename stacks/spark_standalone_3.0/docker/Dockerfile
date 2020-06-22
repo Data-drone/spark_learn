@@ -28,7 +28,6 @@ RUN export PATH="/usr/local/sbt/bin:$PATH" &&  apt -y update && \
     apt -y install ca-certificates wget tar && mkdir -p "/usr/local/sbt" && \
     wget -qO - --no-check-certificate "https://github.com/sbt/sbt/releases/download/v${SBT_VERSION}/sbt-${SBT_VERSION}.tgz" | tar xz -C /usr/local/sbt --strip-components=1 && sbt sbtVersion
 
-# https://archive.apache.org/dist/spark/spark-2.4.3/spark-2.4.3-bin-hadoop2.7.tgz
 RUN wget --no-verbose https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz && tar -xvzf spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz \
       && mv spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION} spark \
       && rm spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz
@@ -64,11 +63,12 @@ RUN conda install --quiet --yes \
 
 # Apache Toree kernel
 # hadolint ignore=DL3013
-RUN pip install --no-cache-dir \
-    https://dist.apache.org/repos/dist/release/incubator/toree/0.3.0-incubating/toree-pip/toree-0.3.0.tar.gz \
-    && \
-    jupyter toree install --sys-prefix && \
-    rm -rf "/home/${NB_USER}/.local"
+# Toree doesn't support Spark 3 currently
+#RUN pip install --no-cache-dir \
+#    https://dist.apache.org/repos/dist/release/incubator/toree/0.3.0-incubating/toree-pip/toree-0.3.0.tar.gz \
+#    && \
+#    jupyter toree install --sys-prefix && \
+#    rm -rf "/home/${NB_USER}/.local"
 
 # Spylon-kernel
 RUN conda install --quiet --yes 'spylon-kernel=0.4*' && \

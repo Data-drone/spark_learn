@@ -1,7 +1,12 @@
 # Spark Learning
 
-Repo for experimenting with spark 2.x
-- Docker compose for building spark multi-worker spark stacks
+Current Stacks:
+
+- Spark 2.4 Standalone
+- Spark 3.0 Standalone
+- Others maybe broken
+
+- Each stack folder contains docker compose for building spark multi-worker spark stacks
 
 ## Starting the stack
 

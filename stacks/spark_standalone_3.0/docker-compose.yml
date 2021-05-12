@@ -6,8 +6,8 @@ services:
       - "9090:8080"
       - "7077:7077"
     volumes:
-       - /home/brian/Workspace/spark_learn/apps:/opt/spark-apps
-       - /home/brian/Workspace/spark_learn/data:/opt/spark-data
+       - ${PWD}/apps:/opt/spark-apps
+       - ${PWD}/data:/opt/spark-data
     environment:
       - "SPARK_LOCAL_IP=spark-master"
       - "PYSPARK_PYTHON=/usr/bin/python3"
@@ -25,8 +25,8 @@ services:
       - "PYSPARK_PYTHON=/usr/bin/python3"
       - "PYSPARK_DRIVER_PYTHON=/usr/bin/python3"
     volumes:
-       - /home/brian/Workspace/spark_learn/apps:/opt/spark-apps
-       - /home/brian/Workspace/spark_learn/data:/opt/spark-data
+       - ${PWD}/apps:/opt/spark-apps
+       - ${PWD}/data:/opt/spark-data
   notebook:
     #build: docker/
     image: datadrone/spark_notebook:3.0.0-hadoop3.2
@@ -41,4 +41,4 @@ services:
     ipc: host
     volumes:
        - /home/brian/Workspace:/home/jovyan/work
-       - /home/brian/Workspace/spark_learn/data:/opt/spark-data
+       - ${PWD}/data:/opt/spark-data

@@ -1,4 +1,4 @@
-FROM datadrone/deeplearn_pytorch
+FROM datadrone/deeplearn_pytorch:latest
 
 USER root
 
@@ -7,15 +7,15 @@ RUN apt-get -y update && \
     rm -rf /var/lib/apt/lists/*
 
 # setup scala
-ENV SPARK_VERSION=3.0.0
+ENV SPARK_VERSION=3.1.1
 ENV HADOOP_VERSION=3.2
-ENV SCALA_VERSION=2.12.11
-ENV SBT_VERSION=1.3.12
+ENV SCALA_VERSION=2.12.13
+ENV SBT_VERSION=1.5.1
 ENV SCALA_HOME=/usr/share/scala
 ENV SPARK_HOME=/spark
 
 RUN cd "/tmp" && \
-    wget --no-verbose "https://downloads.typesafe.com/scala/${SCALA_VERSION}/scala-${SCALA_VERSION}.tgz" && \
+    wget --no-verbose "https://downloads.lightbend.com/scala/${SCALA_VERSION}/scala-${SCALA_VERSION}.tgz" && \
     tar xzf "scala-${SCALA_VERSION}.tgz" && \
     mkdir "${SCALA_HOME}" && \
     rm "/tmp/scala-${SCALA_VERSION}/bin/"*.bat && \
@@ -38,13 +38,18 @@ ENV SPARK_HOME='/home/jovyan/spark/'
 # Note: this is needed when you use Python 3.3 or greater
 ENV PYTHONHASHSEED 1
 
-RUN pip install pyspark==3.0.0 conda-pack
+## Need to add a conda env flag
+RUN conda create --name spark python=3.7 pyspark==3.1.1 conda-pack
 
-USER $NB_USER
+SHELL ["conda", "run", "-n", "spark", "/bin/bash", "-c"]
+
+# this isn't installing in the right folder
+#RUN pip install pyspark==3.1.1 conda-pack
 
 # lock in high versions
 # main for Deep Learning packages and issues from that
 RUN conda config --set channel_priority false
+
 
 ## from jupyter stacks
 # Install pyarrow
@@ -53,11 +58,11 @@ RUN conda install --quiet -y 'pyarrow' && \
 
 # R packages
 RUN conda install --quiet --yes \
-    'r-base=4.0.1' \
+    'r-base=4.0.3' \
     'r-ggplot2=3.3*' \
     'r-irkernel=1.1*' \
     'r-rcurl=1.98*' \
-    'r-sparklyr=1.2*' \
+    'r-sparklyr=1.6*' \
     && \
     conda clean --all -f -y
 
@@ -75,5 +80,7 @@ RUN conda install --quiet --yes 'spylon-kernel=0.4*' && \
     conda clean --all -f -y && \
     python -m spylon_kernel install --sys-prefix && \
     rm -rf "/home/${NB_USER}/.local"
+
+USER $NB_USER
 
 WORKDIR $HOME

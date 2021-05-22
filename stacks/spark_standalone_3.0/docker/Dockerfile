@@ -39,7 +39,7 @@ ENV SPARK_HOME='/home/jovyan/spark/'
 ENV PYTHONHASHSEED 1
 
 ## Need to add a conda env flag
-RUN conda create --name spark python=3.7 pyspark==3.1.1 conda-pack
+RUN conda create --name spark python=3.8 pyspark==3.1.1 conda-pack
 
 SHELL ["conda", "run", "-n", "spark", "/bin/bash", "-c"]
 
@@ -80,6 +80,20 @@ RUN conda install --quiet --yes 'spylon-kernel=0.4*' && \
     conda clean --all -f -y && \
     python -m spylon_kernel install --sys-prefix && \
     rm -rf "/home/${NB_USER}/.local"
+
+# Add repids 0.5.0
+RUN mkdir /opt/sparkRapidsPlugin
+RUN wget -O /opt/sparkRapidsPlugin/rapids-4-spark_2.12-0.5.0.jar https://repo1.maven.org/maven2/com/nvidia/rapids-4-spark_2.12/0.5.0/rapids-4-spark_2.12-0.5.0.jar
+RUN wget -O /opt/sparkRapidsPlugin/cudf-0.19.2-cuda11.jar https://repo1.maven.org/maven2/ai/rapids/cudf/0.19.2/cudf-0.19.2-cuda11.jar
+RUN wget -O /opt/sparkRapidsPlugin/getGpusResources.sh https://raw.githubusercontent.com/apache/spark/master/examples/src/main/scripts/getGpusResources.sh
+
+RUN chmod u+x /opt/sparkRapidsPlugin/getGpusResources.sh \
+      && chmod u+x /opt/sparkRapidsPlugin/rapids-4-spark_2.12-0.5.0.jar \
+      && chmod u+x /opt/sparkRapidsPlugin/cudf-0.19.2-cuda11.jar
+
+RUN chown jovyan:1000 /opt/sparkRapidsPlugin/getGpusResources.sh \
+      && chown jovyan:1000 /opt/sparkRapidsPlugin/rapids-4-spark_2.12-0.5.0.jar \
+      && chown jovyan:1000 /opt/sparkRapidsPlugin/cudf-0.19.2-cuda11.jar
 
 USER $NB_USER
 
